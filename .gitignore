@@ -1,0 +1,6 @@
+/nbproject/private/*
+/Cache/*
+/Logs/*
+node_modules/
+.sass-cache/
+.idea/

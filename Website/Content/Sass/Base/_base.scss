@@ -1,0 +1,51 @@
+/* FONT FAMILY LINKAGE */
+@font-face {
+	font-family: 'Segoe UI';
+	src:    url('Font/Segoe/Segoe.eot');
+	src:    url('Font/Segoe/Segoe.eot?#iefix') format('embedded-opentype'),
+			url('Font/Segoe/Segoe.woff') format('woff'),
+			url('Font/Segoe/Segoe.ttf') format('truetype'),
+			url('Font/Segoe/Segoe.svg#Sri-TSCRegular') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+    font-family: 'clearly';
+    src: url('Font/Clearly/PrintClearly-webfont.eot');
+    src: url('Font/Clearly/PrintClearly-webfont.eot?#iefix') format('embedded-opentype'),
+         url('Font/Clearly/PrintClearly-webfont.woff') format('woff'),
+         url('Font/Clearly/PrintClearly-webfont.ttf') format('truetype'),
+         url('Font/Clearly/PrintClearly-webfont.svg#print_clearlyregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+@font-face {
+    font-family: 'existence';
+    src: url('Font/Existence/Existence-Light-webfont.eot');
+    src: url('Font/Existence/Existence-Light-webfont.eot?#iefix') format('embedded-opentype'),
+         url('Font/Existence/Existence-Light-webfont.woff') format('woff'),
+         url('Font/Existence/Existence-Light-webfont.ttf') format('truetype'),
+         url('Font/Existence/Existence-Light-webfont.svg#existencelight') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+/* UTILITIES CLASSES */
+.fLeft          {float: left;display: block;}
+.fRight         {float: right;display: block;}
+.tAlignCenter   {text-align: center;}
+.tLeft   		{text-align: left;}
+.tRight   		{text-align: right;}
+.cl             {clear: both;display: block;}
+.vAlignCenter   {vertical-align: middle;}
+.inlineBlock	{display: inline-block;}
+
+/* LAYOUT */
+html, body{
+	margin: 0;
+
+	background: #f3f3f3;
+	font-family: 'Segoe UI' !important;
+}
