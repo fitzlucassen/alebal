@@ -21,9 +21,28 @@
 			// Une action commencera toujours par l'initilisation de son modèle
 			// Cette initialisation doit obligatoirement contenir le repository manager
 			$Model = new Model\HomeModel($this->_repositoryManager);
+			
+			if(Core\Request::isPost()){
+				// It's a form validation
+				// Clean all vars
+				$data = Core\Request::cleanRequest();
+
+				$Model->repository = $this->_repositoryManager->get('event');
+				$Model->repository->add([
+					'id_Competitor1' => $data['id_Competitor1'],
+					'id_Competitor2' => $data['id_Competitor2'],
+					'score_Competitor1' => $data['score1'],
+					'score_Competitor2' => $data['score2'],
+					'date' => $data['date'],
+				]);
+				// Process request...
+			}
 
 			$Model->repository = $this->_repositoryManager->get('event');
 			$Model->events = $Model->repository->getAll($this->_repositoryManager->getConnection());
+
+			$Model->repository = $this->_repositoryManager->get('competitor');
+			$Model->competitors = $Model->repository->getAll($this->_repositoryManager->getConnection());
 			
 			// Une action finira toujours par un $this->_view->view contenant : 
 			// cette fonction prend en paramètre le modèle

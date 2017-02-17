@@ -14,44 +14,89 @@
 	// Intégrer ci-dessous la vue
 ?>
 <div id="page" class="home-page">
-	<div class="collection">
-		<a href="#!" class="collection-item"><span class="new badge" data-badge-caption="">11 - 0</span>Thibault - Roberte</a>
-		<a href="#!" class="collection-item"><span class="new badge" data-badge-caption="">12 - 14</span>Michael - Christophe</a>
+	<div class="row" style="padding: 2.5%;">
+		<div class="card">
+			<div class="collection">
+				<?php
+					foreach ($this->Model->events as $key => $value) {
+						$score1 = $value->getScore_Competitor1(); 
+						$score2 = $value->getScore_Competitor2(); 
+				?>
+					<a href="#!" class="collection-item">
+						<span class="new badge" data-badge-caption=""><?php echo ($score1 == 0 ? '0' : $score1) . ' - ' . ($score2 == 0 ? '0' : $score2); ?></span>
+						<span class="<?php echo $score1 > $score2 ? 'teal-text' : 'red-text'; ?>"><?php echo $value->getCompetitor1($this->Model->repository)->getName();?></span>
+						 - 
+						<span class="<?php echo $score1 < $score2 ? 'teal-text' : 'red-text'; ?>"><?php echo $value->getCompetitor2($this->Model->repository)->getName();?></span>
+					</a>
+				<?php
+					}
+				?>
+			</div>
+		</div>
 	</div>
-
 	<p style="position: absolute;bottom:2.5%;right:2.5%;">
 		<a href="#modal1" class="btn-floating btn-large waves-effect waves-light red waves-effect waves-light btn"><i class="material-icons">add</i></a>
 
 		<div id="modal1" class="modal modal-fixed-footer">
 			<form method="post" action="" class="col s12">
 				<div class="modal-content">
-					<h4 class="heading">Ajouter un match</h4>
+					<h4 class="heading" style="border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 2.5%;">Ajouter un match</h4>
 					<br/>
 					<div class="row">
-						<div class="row">
-							<div class="input-field col s12">
-								<select>
-									<option value="" disabled selected>Choisir le joueur 1</option>
-									<option value="1">Thibault</option>
-									<option value="2">Roberte</option>
-									<option value="3">Michael</option>
-								</select>
-								<label>Joueur 1</label>
-							</div>
-							<div class="input-field col s12">
-								<select>
-									<option value="" disabled selected>Choisir le joueur 2</option>
-									<option value="1">Thibault</option>
-									<option value="2">Roberte</option>
-									<option value="3">Michael</option>
-								</select>
-								<label>Joueur 2</label>
-							</div>
+						<h5 class="heading">Joueurs du match</h4>
+						
+						<div class="input-field col s12">
+							<select name="id_Competitor1">
+								<option value="" disabled selected>Choisir le joueur 1</option>
+								
+								<?php
+									foreach ($this->Model->competitors as $key => $value) {
+								?>
+									<option value="<?php echo $value->getId(); ?>"><?php echo $value->getName(); ?></option>
+								<?php
+									}
+								?>
+							</select>
+							<label>Joueur 1</label>
+						</div>
+						<div class="input-field col s12">
+							<select name="id_Competitor2">
+								<option value="" disabled selected>Choisir le joueur 2</option>
+
+								<?php
+									foreach ($this->Model->competitors as $key => $value) {
+								?>
+									<option value="<?php echo $value->getId(); ?>"><?php echo $value->getName(); ?></option>
+								<?php
+									}
+								?>
+							</select>
+							<label>Joueur 2</label>
 						</div>
 					</div>
+					<div class="row">
+						<h5 class="heading">Score du match</h4>
+						
+						<div class="input-field col s6">
+							<input name="score1" type="number" class="validate">
+							<label for="score1">Score joueur 1</label>
+						</div>
+						<div class="input-field col s6">
+							<input name="score2" type="number" class="validate">
+							<label for="score2">Score joueur 2</label>
+						</div>
+					</div>
+					<div class="row">
+						<h5 class="heading">Date du match</h4>
+						
+						<div class="input-field col s12">
+							<input type="text" name="date" class="datepicker">
+							<label for="score2">Date du match</label>
+						</div>
+					</div>					
 				</div>
 				<div class="modal-footer">
-					<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Valider</a>
+					<input type="submit" class="modal-action modal-close waves-effect waves-green btn-flat " value="Valider"/>
 				</div>
 			</form>
 		</div>

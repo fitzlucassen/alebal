@@ -9,6 +9,7 @@
 	class HomeModel extends Model{
 		public $events = null;
 		public $repository = null;
+		public $competitors = null;
 
 		public function __construct($manager) {
 			parent::__construct($manager);
