@@ -15,24 +15,31 @@
 ?>
 <div id="page" class="home-page">
 	<div class="row" style="padding: 2.5%;">
-		<div class="card">
-			<div class="collection">
-				<?php
-					foreach ($this->Model->events as $key => $value) {
-						$score1 = $value->getScore_Competitor1(); 
-						$score2 = $value->getScore_Competitor2(); 
-				?>
-					<a href="#!" class="collection-item">
-						<span class="new badge" data-badge-caption=""><?php echo ($score1 == 0 ? '0' : $score1) . ' - ' . ($score2 == 0 ? '0' : $score2); ?></span>
-						<span class="<?php echo $score1 > $score2 ? 'teal-text' : 'red-text'; ?>"><?php echo $value->getCompetitor1($this->Model->repository)->getName();?></span>
-						 - 
-						<span class="<?php echo $score1 < $score2 ? 'teal-text' : 'red-text'; ?>"><?php echo $value->getCompetitor2($this->Model->repository)->getName();?></span>
-					</a>
-				<?php
-					}
-				?>
+		<?php
+			foreach ($this->Model->events as $date => $events) {
+		?>
+			<h4 class="heading"><?php echo $date; ?></h4>
+			<div class="card">
+				<div class="collection">
+					<?php
+						foreach ($events as $key2 => $value) {
+							$score1 = $value->getScore_Competitor1(); 
+							$score2 = $value->getScore_Competitor2(); 
+					?>
+						<a href="#!" class="collection-item">
+							<span class="new badge" data-badge-caption=""><?php echo ($score1 == 0 ? '0' : $score1) . ' - ' . ($score2 == 0 ? '0' : $score2); ?></span>
+							<span class="<?php echo $score1 > $score2 ? 'teal-text' : 'red-text'; ?>"><?php echo $value->getCompetitor1($this->Model->repository)->getName();?></span>
+							- 
+							<span class="<?php echo $score1 < $score2 ? 'teal-text' : 'red-text'; ?>"><?php echo $value->getCompetitor2($this->Model->repository)->getName();?></span>
+						</a>
+					<?php
+						}
+					?>
+				</div>
 			</div>
-		</div>
+		<?php
+			}
+		?>
 	</div>
 	<p style="position: absolute;bottom:2.5%;right:2.5%;">
 		<a href="#modal1" class="btn-floating btn-large waves-effect waves-light red waves-effect waves-light btn"><i class="material-icons">add</i></a>

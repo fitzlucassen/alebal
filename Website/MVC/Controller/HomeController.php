@@ -44,6 +44,18 @@
 			$Model->repository = $this->_repositoryManager->get('competitor');
 			$Model->competitors = $Model->repository->getAll($this->_repositoryManager->getConnection());
 			
+			$array_date = [];
+
+			foreach ($Model->events as $key => $value) {
+				if(!array_key_exists($value->getDate(), $array_date)){
+					$array_date[$value->getDate()] = [$value];
+				}
+				else {
+					array_push($array_date[$value->getDate()], $value);
+				}
+			}
+
+			$Model->events = $array_date;
 			// Une action finira toujours par un $this->_view->view contenant : 
 			// cette fonction prend en paramètre le modèle
 			$this->_view->view($Model);
@@ -58,33 +70,54 @@
 			$Model->events = $Model->repository->getAll($this->_repositoryManager->getConnection());
 
 			$Model->repository = $this->_repositoryManager->get('competitor');
+			$competitors = $Model->repository->getAll($this->_repositoryManager->getConnection());
 
-			$array = [];
+			$array_victories = [];
+			$array_match = [];
+			$Model->classement = [];
+
 			foreach ($Model->events as $key => $value) {
 				if($value->getScore_Competitor1() > $value->getScore_Competitor2()){
-					if(array_key_exists($value->getId_Competitor1(), $array))
-						$array[$value->getId_Competitor1()]++;
-					else
-						$array[$value->getId_Competitor1()] = 1;
-
-					if(!array_key_exists($value->getId_Competitor2(), $array))
-						$array[$value->getId_Competitor2()] = 0;
+					$this->incrementPlayer($array_victories, $value->getId_Competitor1());
+					$this->incrementPlayer($array_match, $value->getId_Competitor1());
+					$this->incrementPlayer($array_match, $value->getId_Competitor2());
+					
+					if(!array_key_exists($value->getId_Competitor2(), $array_victories))
+						$array_victories[$value->getId_Competitor2()] = 0;
 				}
 				else {
-					if(array_key_exists($value->getId_Competitor2(), $array)) 
-						$array[$value->getId_Competitor2()]++;
-					else
-						$array[$value->getId_Competitor2()] = 1;
+					$this->incrementPlayer($array_victories, $value->getId_Competitor2());
+					$this->incrementPlayer($array_match, $value->getId_Competitor1());
+					$this->incrementPlayer($array_match, $value->getId_Competitor2());;
 
-					if(!array_key_exists($value->getId_Competitor1(), $array))
-						$array[$value->getId_Competitor1()] = 0;
+					if(!array_key_exists($value->getId_Competitor1(), $array_victories))
+						$array_victories[$value->getId_Competitor1()] = 0;
 				}
 			}
-			arsort($array);
-			$Model->classement = $array;
+
+			foreach ($competitors as $key => $competitor) {
+				$id = $competitor->getId();
+				
+				$nbMatchs = array_key_exists($id, $array_match) ? $array_match[$id] : 0;
+				$nbVictories = array_key_exists($id, $array_victories) ? $array_victories[$id] : 0;
+
+				$Model->classement[$id] = [
+					'rank' => round(($nbMatchs > 0 ? $nbVictories / $nbMatchs : 0), 2),
+					'matchs' => $nbMatchs,
+					'victories' => $nbVictories
+				];
+			}
+			arsort($Model->classement);
 			// Une action finira toujours par un $this->_view->view contenant : 
 			// cette fonction prend en paramètre le modèle
 			$this->_view->view($Model);
+		}
+
+		private function incrementPlayer(&$array, $competitorId){
+			if(array_key_exists($competitorId, $array)) 
+				$array[$competitorId]++;
+			else
+				$array[$competitorId] = 1;
 		}
 
 		public function Error404(){

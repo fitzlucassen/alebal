@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `competitor` (
   `id` int(10) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `date` datetime NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
@@ -56,7 +56,7 @@ CREATE TABLE `event` (
   `id_Competitor2` int(10) NOT NULL,
   `score_Competitor1` int(10) NOT NULL DEFAULT '0',
   `score_Competitor2` int(10) NOT NULL DEFAULT '0',
-  `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `date` datetime NOT NULL 
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
