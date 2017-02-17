@@ -46,6 +46,10 @@
 <meta name="msapplication-TileImage" content="<?php echo __image_directory__; ?>/Icons/ms-icon-144x144.png">
 <meta name="theme-color" content="#ffffff">
 
+<!-- Compiled and minified CSS -->
+<!--Import Google Icon Font-->
+<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
 <link href="https://plus.google.com/118113345454496028722" rel="publisher" />
 <link type="text/css" rel="stylesheet" href="/<?php echo __css_directory__;?>/_built.css" />
 
