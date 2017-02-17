@@ -49,6 +49,44 @@
 			$this->_view->view($Model);
 		}
 		
+		public function Classement(){
+			// Une action commencera toujours par l'initilisation de son modèle
+			// Cette initialisation doit obligatoirement contenir le repository manager
+			$Model = new Model\HomeModel($this->_repositoryManager);
+			
+			$Model->repository = $this->_repositoryManager->get('event');
+			$Model->events = $Model->repository->getAll($this->_repositoryManager->getConnection());
+
+			$Model->repository = $this->_repositoryManager->get('competitor');
+
+			$array = [];
+			foreach ($Model->events as $key => $value) {
+				if($value->getScore_Competitor1() > $value->getScore_Competitor2()){
+					if(array_key_exists($value->getId_Competitor1(), $array))
+						$array[$value->getId_Competitor1()]++;
+					else
+						$array[$value->getId_Competitor1()] = 1;
+
+					if(!array_key_exists($value->getId_Competitor2(), $array))
+						$array[$value->getId_Competitor2()] = 0;
+				}
+				else {
+					if(array_key_exists($value->getId_Competitor2(), $array)) 
+						$array[$value->getId_Competitor2()]++;
+					else
+						$array[$value->getId_Competitor2()] = 1;
+
+					if(!array_key_exists($value->getId_Competitor1(), $array))
+						$array[$value->getId_Competitor1()] = 0;
+				}
+			}
+			arsort($array);
+			$Model->classement = $array;
+			// Une action finira toujours par un $this->_view->view contenant : 
+			// cette fonction prend en paramètre le modèle
+			$this->_view->view($Model);
+		}
+
 		public function Error404(){
 			$Model = new Model\HomeModel($this->_repositoryManager);
 			
