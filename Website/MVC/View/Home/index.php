@@ -41,7 +41,7 @@
 			}
 		?>
 	</div>
-	<p style="position: absolute;bottom:2.5%;right:2.5%;">
+	<p style="position: fixed;bottom:2.5%;right:2.5%;">
 		<a href="#modal1" class="btn-floating btn-large waves-effect waves-light red waves-effect waves-light btn"><i class="material-icons">add</i></a>
 
 		<div id="modal1" class="modal modal-fixed-footer">
