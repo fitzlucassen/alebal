@@ -61,6 +61,32 @@
 			$this->_view->view($Model);
 		}
 		
+		public function Event(){
+			$Model = new Model\HomeModel($this->_repositoryManager);
+			
+			$Model->repository = $this->_repositoryManager->get('event');
+			$Model->events = $Model->repository->getAll($this->_repositoryManager->getConnection());
+
+			$events = [];
+			foreach ($Model->events as $key => $match) {
+				if(array_key_exists($match->getId_Competitor1() . '-' . $match->getId_Competitor2(), $events))
+					$events[$match->getId_Competitor1() . '-' . $match->getId_Competitor2()]++;
+				else if(array_key_exists($match->getId_Competitor2() . '-' . $match->getId_Competitor1(), $events))
+					$events[$match->getId_Competitor2() . '-' . $match->getId_Competitor1()]++;
+				else {
+					$events[$match->getId_Competitor1() . '-' . $match->getId_Competitor2()] = 1;
+				}
+			}
+
+			$Model->repository = $this->_repositoryManager->get('competitor');
+			$Model->competitors = $Model->repository->getAll($this->_repositoryManager->getConnection());
+			$Model->events = $events;
+
+			// Une action finira toujours par un $this->_view->view contenant : 
+			// cette fonction prend en paramètre le modèle
+			$this->_view->view($Model);
+		}
+
 		public function Classement(){
 			// Une action commencera toujours par l'initilisation de son modèle
 			// Cette initialisation doit obligatoirement contenir le repository manager
