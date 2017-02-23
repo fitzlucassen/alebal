@@ -22,7 +22,7 @@
 					foreach ($this->Model->classement as $competitorId => $value) {
 				?>
 					<a href="#!" class="collection-item">
-						<span class="new badge" data-badge-caption=""><b>rang :</b> <?php echo $value['rank']; ?>, <b>ratio :</b> <?php echo $value['victories'] . ' / ' . $value['matchs']; ?></span>
+						<span class="new badge" data-badge-caption=""><b>rang :</b> <?php echo $value['rank']; ?>, <b>ratio :</b> <?php echo $value['victories'] . ' / ' . $value['matchs']; ?>, <b>Points :</b> <?php echo $value['points']; ?></span>
 						<?php echo $cpt; ?> - <?php echo $this->Model->repository->getById($competitorId)->getName();?>
 					</a>
 				<?php

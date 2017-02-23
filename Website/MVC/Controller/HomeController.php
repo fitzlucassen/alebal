@@ -100,6 +100,8 @@
 
 			$array_victories = [];
 			$array_match = [];
+			$array_total_goal = [];
+
 			$Model->classement = [];
 
 			foreach ($Model->events as $key => $value) {
@@ -119,6 +121,16 @@
 					if(!array_key_exists($value->getId_Competitor1(), $array_victories))
 						$array_victories[$value->getId_Competitor1()] = 0;
 				}
+
+				// manage goalaverage
+				if(array_key_exists($value->getId_Competitor1(), $array_total_goal))
+					$array_total_goal[$value->getId_Competitor1()] += $value->getScore_Competitor1();
+				else
+					$array_total_goal[$value->getId_Competitor1()] = $value->getScore_Competitor1();
+				if(array_key_exists($value->getId_Competitor2(), $array_total_goal))
+					$array_total_goal[$value->getId_Competitor2()] += $value->getScore_Competitor2();
+				else
+					$array_total_goal[$value->getId_Competitor2()] = $value->getScore_Competitor2();
 			}
 
 			foreach ($competitors as $key => $competitor) {
@@ -126,13 +138,16 @@
 				
 				$nbMatchs = array_key_exists($id, $array_match) ? $array_match[$id] : 0;
 				$nbVictories = array_key_exists($id, $array_victories) ? $array_victories[$id] : 0;
+				$points = array_key_exists($id, $array_total_goal) ? $array_total_goal[$id] : 0;
 
 				$Model->classement[$id] = [
 					'rank' => round(($nbMatchs > 0 ? $nbVictories / $nbMatchs : 0), 2),
 					'matchs' => $nbMatchs,
-					'victories' => $nbVictories
+					'victories' => $nbVictories,
+					'points' => $points
 				];
 			}
+			
 			arsort($Model->classement);
 			// Une action finira toujours par un $this->_view->view contenant : 
 			// cette fonction prend en paramètre le modèle
